@@ -1,0 +1,10 @@
+model Activation {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String
+  createdAt DateTime @default(now())
+
+  promoCodeId String    @db.Uuid
+  promoCode   PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Restrict)
+
+  @@unique([promoCodeId, email])
+}

@@ -1,0 +1,33 @@
+//🧩Don't Edit this file.✨Generated in Sat Apr 11 2026 00:04:26 GMT+0300 (Москва, стандартное время)✨
+model Activation {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String
+  createdAt DateTime @default(now())
+
+  promoCodeId String    @db.Uuid
+  promoCode   PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Restrict)
+
+  @@unique([promoCodeId, email])
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PromoCode {
+  id               String   @id @default(uuid()) @db.Uuid
+  code             String   @unique
+  discountPercent  Int
+  activationLimit  Int
+  activationsCount Int      @default(0)
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  activations Activation[]
+}

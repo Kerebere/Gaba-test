@@ -1,0 +1,12 @@
+model PromoCode {
+  id               String   @id @default(uuid()) @db.Uuid
+  code             String   @unique
+  discountPercent  Int
+  activationLimit  Int
+  activationsCount Int      @default(0)
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  activations Activation[]
+}
